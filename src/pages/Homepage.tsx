@@ -10,7 +10,7 @@ const Homepage = () => {
     <>
       <h1>This is the homepage</h1>
       {user ? (
-        <h2>Welcome user {user.displayName || "Anonymous"}</h2>
+        <h2>Welcome user {user.displayName || user.email}</h2>
       ) : (
         <h2> you are not logged in</h2>
       )}
