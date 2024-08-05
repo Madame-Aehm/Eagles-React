@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { Character, CharacterFetchResponse, NotOk } from "../@types";
+import { createContext, ReactNode, useContext } from "react";
+import { Character, CharacterFetchResponse } from "../@types";
+import useFetch from "../hooks/useFetch";
 
 //1. Create the context
 
@@ -14,13 +15,11 @@ type CharactersContextType = {
   characters: Character[] | null;
   error: string;
   loading: boolean;
-  fetchCharacters: () => Promise<void>;
 };
 const CharactersContextInitalValue = {
   characters: [] as Character[],
   error: "",
   loading: true,
-  fetchCharacters: () => Promise.resolve(),
 };
 
 export const CharactersContext = createContext<CharactersContextType>(
@@ -32,43 +31,19 @@ export const CharactersContext = createContext<CharactersContextType>(
 export const CharactersContextProvider = ({
   children,
 }: CharactersContextProviderPropsType) => {
-  // console.log("children :>> ", children);
-  const [characters, setCharacters] = useState<Character[] | null>(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
 
-  const fetchCharacters = async () => {
-    setError("");
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `https://rickandmortyapi.com/api/character?page=1`
-      );
-      if (response.ok) {
-        const result: CharacterFetchResponse = await response.json(); // as CharacterFetchResponse
-        console.log(result);
-        setCharacters(result.results);
-      } else {
-        const result: NotOk = await response.json();
-        console.log(result);
-        setError(result.error);
-      }
-    } catch (error) {
-      console.log(error);
-      setError("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchCharacters();
-  }, []);
+  const [ data, error, loading ] = useFetch<CharacterFetchResponse>("https://rickandmortyapi.com/api/character");
+  const characters = data?.results || [];
 
   return (
     <CharactersContext.Provider
-      value={{ characters, error, loading, fetchCharacters }}
+      value={{ characters, error, loading }}
     >
       {children}
     </CharactersContext.Provider>
   );
 };
+
+export const useCharacters = () => {
+  return useContext(CharactersContext);
+}

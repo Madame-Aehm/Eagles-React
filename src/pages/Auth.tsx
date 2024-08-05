@@ -1,9 +1,8 @@
-import { useContext } from "react"
 import AuthForm from "../components/AuthForm"
-import { AuthContext } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext"
 
 const Auth = () => {
-  const { signup, login } = useContext(AuthContext);
+  const { signup, login } = useAuth();
 
   return (
    <>

@@ -1,17 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import "../App.css";
 // import { Character, CharacterFetchResponse, NotOk } from '../@types';
 import CharacterCard from "../components/CharacterCard";
-import { Character, CharacterFetchResponse } from "../@types";
-import { useLoaderData } from "react-router-dom";
-import { CharactersContext } from "../context/CharactersContext";
+import { CharacterFetchResponse } from "../@types";
+import useFetch from "../hooks/useFetch";
 
 function Characters() {
-  // const { results: characters, info } =
-  //   useLoaderData() as CharacterFetchResponse;
-
-  const { characters, error, fetchCharacters, loading } =
-    useContext(CharactersContext);
+  const [ data, error, loading ] = useFetch<CharacterFetchResponse>("https://rickandmortyapi.com/api/character");
+  const characters = data?.results || [];
 
   const [filterValue, setFilterValue] = useState("");
 
@@ -24,10 +20,6 @@ function Characters() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValue(event.target.value);
   };
-
-  // useEffect(() => {
-  //   fetchCharacters();
-  // }, []);
 
   if (loading) {
     return <h1>Loading....</h1>;

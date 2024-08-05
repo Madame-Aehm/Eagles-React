@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const NavBar = () => {
   const navContainerStyles = {
@@ -14,7 +13,7 @@ const NavBar = () => {
     padding: "0 1em",
   };
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
 
 
   // const user1: User = {

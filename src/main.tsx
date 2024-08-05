@@ -36,45 +36,42 @@ const router = createBrowserRouter([
         element: <Homepage />,
       },
       {
-        path: "/characters",
-        element: (
-          <ProtectedRoute>
-            <Characters />
-          </ProtectedRoute>
-        ),
-        loader: async () => {
-          return fetch("https://rickandmortyapi.com/api/character");
-        },
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "/characters/:id",
-        element: <Details />,
+        element: <ProtectedRoute><Outlet /></ProtectedRoute>,
+        children: [
+          {
+            path: "/characters",
+            element: <Characters />,
+            loader: async () => {
+              return fetch("https://rickandmortyapi.com/api/character");
+            },
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "/characters/:id",
+            element: <Details />,
+          },
+          {
+            path: "/about",
+            element: <About />,
+            children: [
+              {
+                path: "app",
+                element: <AboutApp />,
+              },
+              {
+                path: "developer",
+                element: <AboutDev />,
+              },
+            ],
+          },
+        ]
       },
       {
         path: "/login",
         element: <Auth />
       },
-      {
-        path: "/about",
-        element: <About />,
-        children: [
-          {
-            path: "app",
-            element: <AboutApp />,
-          },
-          {
-            path: "developer",
-            element: <AboutDev />,
-          },
-        ],
-      },
     ],
   },
-  // {
-  //   path: "/about/developer",
-  //   element: <AboutDev />
-  // },
   {
     path: "*",
     element: <Error />,

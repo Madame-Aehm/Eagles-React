@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { CharactersContext } from "../context/CharactersContext";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const Homepage = () => {
   const { characters } = useContext(CharactersContext);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   return (
     <>

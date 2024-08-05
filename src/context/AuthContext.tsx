@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 // import { User } from "../@types";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { auth } from "../firebaseConfig";
@@ -111,3 +111,7 @@ export const AuthContextProvider = ({
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+}

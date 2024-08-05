@@ -2,6 +2,15 @@ export type NotOk = {
   error: string;
 };
 
+export type Comment = {
+  id: string
+  userID: string
+  user: string
+  characterID: string
+  comment: string
+  date: number
+}
+
 export type CharacterFetchResponse = {
   info: Info;
   results: Character[];
